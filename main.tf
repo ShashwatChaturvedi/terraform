@@ -33,3 +33,13 @@ module "eks" {
   vpc_id          = module.vpc.vpc_id
   subnet_ids      = module.vpc.public_subnet_ids  # This is the correct attribute
 }
+
+terraform {
+  backend "s3" {
+    bucket         = "terraform-states-mine"  # Your S3 bucket name
+    key            = "terraform.tfstate"      # Path to the state file in the bucket
+    region         = "ap-south-1"             # Your region
+    dynamodb_table = "terraform-locks"        # Your DynamoDB table name for state locking
+    encrypt        = true
+  }
+}
