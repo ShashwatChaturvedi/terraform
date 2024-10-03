@@ -1,3 +1,3 @@
 variable "vpc_id" {
-  description = "The VPC ID where the security group will be created"
+  description = "VPC ID for the security group"
 }
