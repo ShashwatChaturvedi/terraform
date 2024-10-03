@@ -1,10 +1,25 @@
-resource "aws_instance" "web" {
-  ami             = var.ami_id
-  instance_type   = var.instance_type
-  subnet_id       = var.subnet_id       # Use the subnet_id passed from the root module
-  vpc_security_group_ids = [var.security_group_id]  # Use the security_group_id passed from the root module
+resource "aws_eks_cluster" "this" {
+  name     = var.cluster_name
+  role_arn = aws_iam_role.eks_role.arn
 
-  tags = {
-    Name = "MyEC2Instance"
+  vpc_config {
+    subnet_ids = var.public_subnet_ids
   }
+}
+
+resource "aws_iam_role" "eks_role" {
+  name = "${var.cluster_name}-eks-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "eks.amazonaws.com"
+        }
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
 }
