@@ -1,13 +1,21 @@
-variable "cluster_name" {
-  description = "The name of the EKS cluster"
-  default     = "my-eks-cluster"
+variable "ami" {
+  description = "AMI for EC2 instance"
 }
 
-variable "vpc_id" {
-  description = "The VPC ID where EKS will be deployed"
+variable "instance_type" {
+  description = "EC2 instance type"
+  default     = "t3.medium"
 }
 
-variable "public_subnet_ids" {
-  description = "Public Subnet IDs for EKS"
-  type        = list(string)
+variable "key_name" {
+  description = "Key pair name for EC2 instance"
+}
+
+variable "subnet_id" {
+  description = "Subnet ID where EC2 instance will be launched"
+}
+
+variable "instance_name" {
+  description = "Name tag for the instance"
+  default     = "MyInstance"
 }
