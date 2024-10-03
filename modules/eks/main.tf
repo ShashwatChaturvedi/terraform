@@ -1,29 +1,25 @@
-module "eks" {
-  source          = "terraform-aws-modules/eks/aws"
-  version         = "20.0.0"
-  cluster_name    = var.cluster_name
-  cluster_version = var.cluster_version
-  vpc_id          = var.vpc_id
-  subnet_ids      = var.subnets
+resource "aws_eks_cluster" "this" {
+  name     = var.cluster_name
+  role_arn = aws_iam_role.eks_role.arn
 
-  node_groups = {
-    eks_nodes = {
-      desired_capacity = 2
-      max_capacity     = 3
-      min_capacity     = 1
+  vpc_config {
+    subnet_ids = var.public_subnet_ids
+  }
+}
 
-      instance_type = "t3.medium"  # Change the instance type here
-      key_name      = "your-ec2-key-pair"  # Optional: only add this if you have a key pair
-      disk_size     = 20
-      additional_security_group_ids = [aws_security_group.main.id]  # Link the security group
+resource "aws_iam_role" "eks_role" {
+  name = "${var.cluster_name}-eks-role"
 
-      tags = {
-        Name = "eks-node-group"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "eks.amazonaws.com"
+        }
+        Action = "sts:AssumeRole"
       }
-    }
-  }
-
-  tags = {
-    Name = "my-eks-cluster"
-  }
+    ]
+  })
 }
