@@ -1,22 +1,22 @@
-variable "db_name" {
-  description = "The name of the database"
-}
-
-variable "username" {
-  description = "The username for the RDS instance"
-}
-
-variable "password" {
-  description = "The password for the RDS instance"
-  type        = string
-  default     = "strongpassword123"  # Ensure this is at least 8 characters
-}
-
-variable "security_group_id" {
-  description = "The security group ID for the RDS instance"
-}
-
-variable "subnet_ids" {
-  description = "The list of subnet IDs for the RDS instance"
+variable "private_subnets" {
+  description = "List of private subnet IDs for RDS"
   type        = list(string)
+}
+
+variable "db_name" {
+  description = "Database name"
+  default     = "mydb"
+}
+
+variable "db_user" {
+  description = "Database username"
+  default     = "admin"
+}
+
+variable "db_password" {
+  description = "Database password"
+}
+
+variable "subnet_group_name" {
+  description = "RDS Subnet Group Name"
 }
