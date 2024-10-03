@@ -1,4 +1,15 @@
-output "instance_id" {
-  description = "The ID of the EC2 instance"
-  value       = aws_instance.web.id  # Ensure this matches the actual resource name
+output "cluster_name" {
+  value = aws_eks_cluster.this.name
+}
+
+output "cluster_endpoint" {
+  value = aws_eks_cluster.this.endpoint
+}
+
+output "cluster_security_group_id" {
+  value = aws_eks_cluster.this.vpc_config[0].cluster_security_group_id
+}
+
+output "worker_iam_role_arn" {
+  value = aws_iam_role.eks_role.arn
 }
