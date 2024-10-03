@@ -1,9 +1,13 @@
 variable "cluster_name" {
   description = "The name of the EKS cluster"
-  default     = "my-eks-cluster"  # Replace with your preferred cluster name
+  default     = "my-eks-cluster"
 }
 
-variable "cluster_version" {
-  description = "The version of the EKS cluster"
-  default     = "1.21"  # Replace with your preferred EKS version
+variable "vpc_id" {
+  description = "The VPC ID where EKS will be deployed"
+}
+
+variable "public_subnet_ids" {
+  description = "Public Subnet IDs for EKS"
+  type        = list(string)
 }
